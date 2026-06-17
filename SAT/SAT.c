@@ -26,7 +26,6 @@ typedef struct CNF {
 
 // NOVA ESTRUTURA DA ÁRVORE (Agora formalmente uma Árvore Binária)
 typedef struct Arvr {
-    int variavel; // Qual variável este nó está decidindo
     int atribuicoes[MAX_LIT];
     struct Arvr *esq; // Ramo esquerdo: Atribuição FALSA (-1)
     struct Arvr *dir; // Ramo direito: Atribuição VERDADEIRA (1)
@@ -131,11 +130,11 @@ int sat(Arvr *no, CNF *cnf, int solucao[]) {
         return UNSAT; 
     }
 
-    no->variavel = variavel_livre;
+
 
     // TENTATIVA 1: Ramo Direito (Atribuir VERDADEIRO / 1)
     no->dir = malloc(sizeof(Arvr));
-    no->dir->variavel = 0; // Será definido na próxima chamada
+     // Será definido na próxima chamada
     memcpy(no->dir->atribuicoes, no->atribuicoes, sizeof(int) * MAX_LIT);
     no->dir->atribuicoes[variavel_livre] = 1;
     
@@ -149,7 +148,7 @@ int sat(Arvr *no, CNF *cnf, int solucao[]) {
 
     
     no->esq = malloc(sizeof(Arvr));
-    no->esq->variavel = 0;
+
     memcpy(no->esq->atribuicoes, no->atribuicoes, sizeof(int) * MAX_LIT);
     no->esq->atribuicoes[variavel_livre] = -1;
     
@@ -186,7 +185,6 @@ int main() {
     
     // Inicializa a raiz da árvore
     Arvr raiz = {0};
-    raiz.variavel = 0;
     raiz.esq = NULL;
     raiz.dir = NULL;
     for (int i = 0; i <= problema.num_literais; i++) {
