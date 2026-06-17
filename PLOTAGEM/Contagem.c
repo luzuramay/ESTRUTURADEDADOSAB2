@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-// --- ESTRUTURAS ---
 typedef struct NoLista {
     void* dado;
     struct NoLista* proximo;
@@ -14,12 +13,10 @@ typedef struct NoArvore {
     struct NoArvore* direita;
 } NoArvore;
 
-// Função Auxiliar para comparar os inteiros
 int comparar(void* a, void* b) {
     return (*(int*)a) - (*(int*)b);
 }
 
-// --- FUNÇÕES DA LISTA DESORDENADA (INSERE NO TOPO) ---
 NoLista* inserirListaDesordenada(NoLista* topo, void* dado) {
     NoLista* novo = (NoLista*)malloc(sizeof(NoLista));
     novo->dado = dado;
@@ -46,19 +43,16 @@ int buscarListaDesordenada(NoLista* topo, void* dado, int* comparacoes) {
     return 0; 
 }
 
-// --- FUNÇÕES DA LISTA ORDENADA (INSERE NA POSIÇÃO CORRETA) ---
 NoLista* inserirListaOrdenada(NoLista* topo, void* dado) {
     NoLista* novo = (NoLista*)malloc(sizeof(NoLista));
     novo->dado = dado;
     novo->proximo = NULL;
-
-    // Caso 1: Lista vazia ou o novo elemento é menor que o primeiro
+    
     if (topo == NULL || comparar(dado, topo->dado) < 0) {
         novo->proximo = topo;
         return novo;
     }
 
-    // Caso 2: Percorrer até achar a posição correta de inserção
     NoLista* atual = topo;
     while (atual->proximo != NULL && comparar(atual->proximo->dado, dado) < 0) {
         atual = atual->proximo;
@@ -84,7 +78,6 @@ int buscarListaOrdenada(NoLista* topo, void* dado, int* comparacoes) {
         if (comp == 0) {
             return 1; 
         }
-        // Otimização: se o valor atual já passou do buscado, não adianta continuar
         if (comp > 0) {
             break; 
         }
@@ -93,7 +86,6 @@ int buscarListaOrdenada(NoLista* topo, void* dado, int* comparacoes) {
     return 0; 
 }
 
-// --- FUNÇÕES DA ÁRVORE (ABB) ---
 NoArvore* inserirArvore(NoArvore* raiz, void* dado) {
     if (raiz == NULL) {
         NoArvore* novo = (NoArvore*)malloc(sizeof(NoArvore));
@@ -125,7 +117,6 @@ int buscarArvore(NoArvore* raiz, void* dado, int* comparacoes) {
     return buscarArvore(raiz->direita, dado, comparacoes);
 }
 
-// --- PROGRAMA PRINCIPAL ---
 int main() {
     srand(time(NULL));
     
@@ -151,8 +142,7 @@ int main() {
         printf("Erro ao criar o arquivo CSV!\n");
         return 1;
     }
-    
-    // Configura o cabeçalho com as 3 colunas de dados
+ 
     fprintf(arquivo, "Sorteio,ListaDesordenada,ListaOrdenada,Arvore\n");
     
     printf("Iniciando buscas...\n");
