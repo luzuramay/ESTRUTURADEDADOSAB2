@@ -12,7 +12,7 @@ Os projetos contemplam diferentes aplicações de estruturas de dados, algoritmo
 
 ## Autores
 
-* Akyris Germano Morais
+* Akyris Germano M. dos Santos
 * Calebe de Oliveira Urbano
 * Mayara Lins dos Santos
 
@@ -33,6 +33,30 @@ Implementação do algoritmo de Huffman para compressão de dados. O projeto con
 ### 4. SAT Solver
 
 Desenvolvimento de um solucionador para o problema da satisfatibilidade booleana (SAT). A aplicação recebe fórmulas lógicas em Forma Normal Conjuntiva (CNF) e determina se existe uma atribuição de valores capaz de satisfazer todas as cláusulas da fórmula.
+
+#### Funcionamento das Entradas
+
+O programa lê arquivos de texto no formato padrão **DIMACS CNF**, que é a representação clássica para problemas de satisfatibilidade. A estrutura do arquivo é dividida da seguinte forma:
+
+1. **Linha de Cabeçalho:**
+   `p cnf num_variaveis num_clausulas`
+   A letra `p` indica o início da definição do problema, seguida pelo tipo `cnf`, o número total de variáveis lógicas e o número de cláusulas.
+
+2. **Cláusulas (Forma Normal Conjuntiva):**
+   Cada linha (ou conjunto de valores terminados em `0`) representa uma disjunção lógica (operações `OR`). 
+   * Valores positivos representam o literal verdadeiro 
+   * Valores negativos indicam a negação do literal
+   * O número `0` é usado estritamente como caractere de quebra para indicar o fim de uma cláusula.
+
+##### Exemplo de Entrada (`exemplo.cnf`)
+
+```text
+p cnf 4 5
+1 2 -3 0
+-1 -2 0
+2 4 0
+-4 0
+-2 3 0
 ### 5. SMT Solver
 
 Implementação de um SMT Solver (*Satisfiability Modulo Theories*), estendendo os conceitos de SAT para lidar com restrições pertencentes a teorias específicas, como relações aritméticas e expressões envolvendo variáveis inteiras.
@@ -74,3 +98,16 @@ t 2 1 -2 >= 1
 ## Objetivo
 
 O objetivo deste repositório é documentar os projetos desenvolvidos ao longo da disciplina, servindo como registro acadêmico e como material de referência para estudos relacionados a estruturas de dados, algoritmos e métodos de resolução de problemas computacionais.
+
+
+
+#### Compilação e Execução
+
+Para compilar o código-fonte do SMT Solver, utilize um compilador C padrão (como o `gcc`). O programa foi projetado para ler os dados automaticamente de um arquivo chamado `entrada.txt` localizado no mesmo diretório do executável.
+
+**Passo a passo:**
+
+1. Certifique-se de ter o `gcc` instalado em sua máquina.
+2. Compile o arquivo fonte (supondo que o nome do arquivo seja `smt.c`):
+   ```bash
+   gcc smt.c -o smt
