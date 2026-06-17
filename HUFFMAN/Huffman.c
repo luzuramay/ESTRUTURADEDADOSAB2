@@ -22,18 +22,15 @@ typedef struct {
 
 #define TAM 256
 
-//----------- 2 ----------//
 void criar_lista(Lista * lista ){
     lista->inicio = NULL;
     lista->tam = 0;
 }
 
-// Insere os nós em uma lista encadeada de forma ordenada
 void inserir_ordenado(Lista * lista, No * no){
     No * aux = NULL;
     
     Conteudo *c_no = (Conteudo*)no->info;
-
 
     if(lista->inicio == NULL){
         lista->inicio = no;
@@ -79,7 +76,7 @@ void preencher_lista(unsigned int *tab, Lista * lista){
                 c->byte = i;
                 c->frequencia = tab[i];
                 
-                novo->info = c; // Guarda o conteúdo dentro do nó genérico
+                novo->info = c; 
                 novo->esquerda = NULL;
                 novo->direita = NULL;
                 novo->proximo = NULL;
@@ -93,7 +90,6 @@ void preencher_lista(unsigned int *tab, Lista * lista){
     }
 }
 
-//----------- 3 ----------//
 void remove_no_inicio(Lista * lista, No ** remover){
     if (lista->inicio == NULL) {
         *remover = NULL;
@@ -157,7 +153,6 @@ void arvore_huffman(Lista * lista, No ** arvore){
     *arvore = lista->inicio;
 }
 
-//----------- 4 ----------//
 void calcular_altura(No *raiz, int *altura) {
     if (raiz == NULL) {
         *altura = -1; 
@@ -207,8 +202,6 @@ void gerar_dicionario(char ** dicionario, No * raiz, char * caminho, int colunas
     }
 }
 
-
-//----------- 5 ----------//
 void calcular_tamanho_arvore(No *raiz, int *tamanho) {
     if (raiz == NULL) {
         return; 
@@ -303,7 +296,6 @@ void compactar(const char *nome_arquivo_entrada, char **dicionario, No *raiz, in
     printf("\nArquivo compactado com sucesso: %s\n", nome_saida);
 }
 
-// -------- 6 -------- //
 void bit_esta_ativo(unsigned char byte, int i, int *ativo) {
     *ativo = (byte >> (7 - i)) & 1;
 }
