@@ -57,6 +57,7 @@ p cnf 4 5
 2 4 0
 -4 0
 -2 3 0
+```
 ### 5. SMT Solver
 
 Implementação de um SMT Solver (*Satisfiability Modulo Theories*), estendendo os conceitos de SAT para lidar com restrições pertencentes a teorias específicas, como relações aritméticas e expressões envolvendo variáveis inteiras.
@@ -86,7 +87,7 @@ t 1 2 1 <= 9
 t 2 1 -2 >= 1
 
 ## Tecnologias Utilizadas
-
+```
 * Linguagem C
 * Estruturas de Dados
 * Árvores de Busca
