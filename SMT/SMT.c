@@ -8,19 +8,17 @@
 #define UNSAT 0
 #define UNDEFINED 2
 
-// Estrutura de Inequação adaptada para o formato posicional limpo
 typedef struct {
-    int atomID;         // ID da variável booleana correspondente (ex: 1 para f1)
-    int a;              // Coeficiente angular (ex: 2)
-    int b;              // Coeficiente linear / deslocamento com sinal (ex: +1 ou -2)
-    char op[3];         // Operador ("<=", "<", ">=", ">")
-    int c;              // Constante alvo do lado direito (ex: 9)
+    int atomID;         
+    int a;              
+    int b;              
+    char op[3];         
+    int c;              
 } Inequacao;
 
-// Estruturas para o verdadeiro motor de cláusulas SAT (CNF)
 typedef struct {
-    int literais[20];   // Lista de literais na cláusula (ex: {1, -2} significa x1 v ~x2)
-    int qtd;            // Quantidade de literais nesta cláusula
+    int literais[20];   
+    int qtd;            
 } Clausula;
 
 typedef struct {
@@ -60,8 +58,7 @@ static void inverter(char op[3]) {
     else if (strcmp(op, ">")  == 0) strcpy(op, "<");
 }
 
-// --- AVALIADOR DO MOTOR SAT ---
-// Analisa se a atribuição booleana atual viola as regras lógicas passadas no arquivo
+
 int verificar(CNF *cnf, int atribuido[]) {
     int tudo_ok = 1;
 
@@ -75,10 +72,10 @@ int verificar(CNF *cnf, int atribuido[]) {
             int valor_atribuido = atribuido[indice_variavel];
 
             if (valor_atribuido == 0) {
-                indefinida = 1; // Variável ainda não decidida pelo Backtracking
+                indefinida = 1; 
             } else if ((literal > 0 && valor_atribuido == 1) || (literal < 0 && valor_atribuido == -1)) {
                 SATisfeita = 1;
-                break; // Se um literal for verdadeiro, a cláusula inteira já está salva
+                break; 
             }
         }
 
@@ -92,7 +89,7 @@ int verificar(CNF *cnf, int atribuido[]) {
     return tudo_ok ? SAT : UNDEFINED;
 }
 
-// --- ASSISTENTE DA TEORIA LIA ---
+
 int LIA(Inequacao problema[], int num_inequacoes, int atribuido[], int *lim_inf_final, int *lim_sup_final) {
     int limite_inferior = min_busca;
     int limite_superior = max_busca;
@@ -101,7 +98,7 @@ int LIA(Inequacao problema[], int num_inequacoes, int atribuido[], int *lim_inf_
         int varID = problema[i].atomID;
         int valor_atribuido = atribuido[varID];
 
-        if (valor_atribuido == 0) continue; // Ignora se o SAT ainda não tomou uma decisão sobre ela
+        if (valor_atribuido == 0) continue; 
 
         int a = problema[i].a;
         int c = problema[i].c;
@@ -115,14 +112,14 @@ int LIA(Inequacao problema[], int num_inequacoes, int atribuido[], int *lim_inf_
             negar(op); 
         }
 
-        // Trata coeficiente de x negativo
+        
         if (a < 0) {
             a = -a;
             c_normalizado = -c_normalizado;
             inverter(op);
         }
 
-        // Aplica o estreitamento de intervalos com base no operador ativo
+        
         if (strcmp(op, "<=") == 0) {
             int limit = DIVchao(c_normalizado, a);
             if (limit < limite_superior) limite_superior = limit;
@@ -144,21 +141,21 @@ int LIA(Inequacao problema[], int num_inequacoes, int atribuido[], int *lim_inf_
     *lim_inf_final = limite_inferior;
     *lim_sup_final = limite_superior;
 
-    if (limite_inferior > limite_superior) return UNSAT; // Conflito matemático!
+    if (limite_inferior > limite_superior) return UNSAT; 
     return SAT; 
 }
 
 
 int SMT(Arvr *no, CNF *cnf, Inequacao problema[], int num_inequacoes, int solucao[], int *lim_inf_final, int *lim_sup_final) {
-    // 1. Checagem Lógica do SAT
+    
     int status_sat = verificar(cnf, no->atribuido);
     if (status_sat == UNSAT) return UNSAT; 
 
-    // 2. Checagem Matemática do LIA (Poda por Teoria)
+    
     int estado_lia = LIA(problema, num_inequacoes, no->atribuido, lim_inf_final, lim_sup_final);
     if (estado_lia == UNSAT) return UNSAT; 
 
-    // Encontra a próxima variável livre
+    
     int variavel_livre = -1;
     for (int i = 1; i <= cnf->num_variaveis; i++) {
         if (no->atribuido[i] == 0) {
@@ -168,7 +165,7 @@ int SMT(Arvr *no, CNF *cnf, Inequacao problema[], int num_inequacoes, int soluca
 
     }
 
-    // Se todas as decisões foram tomadas com sucesso
+    
     if (variavel_livre == -1) {
         for (int i = 1; i <= cnf->num_variaveis; i++) solucao[i] = no->atribuido[i];
         return SAT; 
@@ -218,7 +215,7 @@ int main() {
         return 1;  
     }
 
-    // 2. LER CLÁUSULAS SAT (Terminadas por 0)
+    
     for (int i = 0; i < cnf.num_clausulas; i++) {
         int literal;
         cnf.clausulas[i].qtd = 0;
@@ -227,7 +224,7 @@ int main() {
         }
     }
 
-    // 3. LER RESTRIÇÕES DA TEORIA LIA (Linhas iniciadas com 't')
+    
     char tipo_linha;
     while (fscanf(arq, " %c", &tipo_linha) == 1) {
         if (tipo_linha == 't') {
@@ -242,7 +239,7 @@ int main() {
     }
     fclose(arq);
 
-    // Inicialização da Árvore de Decisão
+    
     Arvr *raiz = malloc(sizeof(Arvr));
     raiz->atribuido = calloc((cnf.num_variaveis + 1), sizeof(int));
     raiz->esq = raiz->dir = NULL;
