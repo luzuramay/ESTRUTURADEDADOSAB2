@@ -252,7 +252,6 @@ void salvar_arvore_arquivo(No *raiz, FILE *arquivo) {
     }
 }
 
-// CORREÇÃO: Agora gera o nome dinâmico igual ao huffmanM (origem + .huff)
 void compactar(const char *nome_arquivo_entrada, char **dicionario, No *raiz, int total_bits) {
     char nome_saida[256];
     sprintf(nome_saida, "%s.huff", nome_arquivo_entrada);
