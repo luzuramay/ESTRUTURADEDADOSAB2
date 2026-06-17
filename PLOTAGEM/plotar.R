@@ -1,10 +1,7 @@
-# 1. Carrega a biblioteca gráfica
 library(ggplot2)
 
-# 2. Lê o arquivo CSV gerado pelo programa em C
 dados <- read.csv("dados_comparacao.csv")
 
-# 3. Cria o gráfico mapeando as 3 curvas
 ggplot(dados) +
   geom_line(aes(x = Sorteio, y = ListaDesordenada, color = "Lista Desordenada"), linewidth = 1) +
   geom_line(aes(x = Sorteio, y = ListaOrdenada, color = "Lista Ordenada"), linewidth = 1) +
@@ -18,8 +15,8 @@ ggplot(dados) +
   ) +
   theme_minimal() +
   scale_color_manual(values = c(
-    "Lista Desordenada" = "#E41A1C",   # Vermelho
-    "Lista Ordenada"    = "#FF7F00",   # Laranja
-    "Árvore Binária (ABB)" = "#377EB8" # Azul
+    "Lista Desordenada" = "#E41A1C",   
+    "Lista Ordenada"    = "#FF7F00",   
+    "Árvore Binária (ABB)" = "#377EB8" 
   )) +
-  scale_y_log10() # Mantido em escala logarítmica para a ABB não virar uma linha "invisível" no zero
+  scale_y_log10() 
