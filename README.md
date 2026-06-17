@@ -85,9 +85,8 @@ p smt 2 2
 2 0
 t 1 2 1 <= 9
 t 2 1 -2 >= 1
-
-## Tecnologias Utilizadas
 ```
+## Tecnologias Utilizadas
 * Linguagem C
 * Estruturas de Dados
 * Árvores de Busca
