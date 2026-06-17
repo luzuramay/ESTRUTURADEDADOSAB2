@@ -2,36 +2,30 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Definições dos máximos
 #define MAX_LIT 500
 #define MAX_CLAU 1000
 
-// Definir termos
 #define SAT 1
 #define UNSAT 0
 #define UNDEFINED 2
 
-// Struct de uma cláusula
 typedef struct Clausula {
     int literais[MAX_LIT];
     int tamanho;
 } Clausula;
 
-// Estrutura do conjunto de cláusulas (CNF)
 typedef struct CNF {
     Clausula clausulas[MAX_CLAU];
     int num_clausulas;
     int num_literais;
 } CNF;
 
-// NOVA ESTRUTURA DA ÁRVORE (Agora formalmente uma Árvore Binária)
 typedef struct Arvr {
     int atribuicoes[MAX_LIT];
-    struct Arvr *esq; // Ramo esquerdo: Atribuição FALSA (-1)
-    struct Arvr *dir; // Ramo direito: Atribuição VERDADEIRA (1)
+    struct Arvr *esq; 
+    struct Arvr *dir; 
 } Arvr;
 
-// ========== LÓGICA DO SAT SOLVER ==========
 
 void ler_arquivo_cnf(const char* nome_arquivo, CNF* problema) {
     FILE* arquivo = fopen(nome_arquivo, "r");
@@ -131,10 +125,7 @@ int sat(Arvr *no, CNF *cnf, int solucao[]) {
     }
 
 
-
-    // TENTATIVA 1: Ramo Direito (Atribuir VERDADEIRO / 1)
     no->dir = malloc(sizeof(Arvr));
-     // Será definido na próxima chamada
     memcpy(no->dir->atribuicoes, no->atribuicoes, sizeof(int) * MAX_LIT);
     no->dir->atribuicoes[variavel_livre] = 1;
     
@@ -142,11 +133,10 @@ int sat(Arvr *no, CNF *cnf, int solucao[]) {
         return SAT; 
     }
     
-    // Poda o galho direito se falhou 
     free(no->dir);
     no->dir = NULL;
 
-    
+
     no->esq = malloc(sizeof(Arvr));
 
     memcpy(no->esq->atribuicoes, no->atribuicoes, sizeof(int) * MAX_LIT);
@@ -156,14 +146,12 @@ int sat(Arvr *no, CNF *cnf, int solucao[]) {
         return SAT; 
     }
     
-    // Poda o galho esquerdo se falhou
     free(no->esq);
     no->esq = NULL;
 
     return UNSAT; 
 }
 
-// Função para liberar os nós da árvore criados com malloc
 void liberar_arvore(Arvr *no) {
     if (no == NULL) return;
     liberar_arvore(no->esq);
@@ -171,7 +159,6 @@ void liberar_arvore(Arvr *no) {
     free(no);
 }
 
-// ========== FUNÇÃO PRINCIPAL ==========
 
 int main() {
     CNF problema = {0};
@@ -183,7 +170,6 @@ int main() {
     
     ler_arquivo_cnf(arquivo, &problema);
     
-    // Inicializa a raiz da árvore
     Arvr raiz = {0};
     raiz.esq = NULL;
     raiz.dir = NULL;
@@ -193,7 +179,6 @@ int main() {
     
     int solucao[MAX_LIT] = {0};
     
-    // Executa o solver e imprime o resultado formatado
     if (sat(&raiz, &problema, solucao)) {
         printf("\nSAT!\n");
         for (int i = 1; i <= problema.num_literais; i++) {
@@ -203,7 +188,6 @@ int main() {
         printf("\nUNSAT!\n");
     }
     
-    // Limpeza de memória dos filhos da raiz (A raiz não usou malloc)
     liberar_arvore(raiz.esq);
     liberar_arvore(raiz.dir);
     
