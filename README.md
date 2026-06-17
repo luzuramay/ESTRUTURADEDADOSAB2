@@ -33,10 +33,33 @@ Implementação do algoritmo de Huffman para compressão de dados. O projeto con
 ### 4. SAT Solver
 
 Desenvolvimento de um solucionador para o problema da satisfatibilidade booleana (SAT). A aplicação recebe fórmulas lógicas em Forma Normal Conjuntiva (CNF) e determina se existe uma atribuição de valores capaz de satisfazer todas as cláusulas da fórmula.
-
 ### 5. SMT Solver
 
 Implementação de um SMT Solver (*Satisfiability Modulo Theories*), estendendo os conceitos de SAT para lidar com restrições pertencentes a teorias específicas, como relações aritméticas e expressões envolvendo variáveis inteiras.
+
+#### Funcionamento das Entradas
+
+O SMT Solver recebe arquivos de texto que estendem o formato tradicional DIMACS CNF para incorporar as restrições aritméticas. A estrutura do arquivo é dividida em três partes principais:
+
+1. **Linha de Cabeçalho:**
+   `p smt numvariaveis numclausulas`
+   Identifica o tipo de problema (`smt`), seguido pelo número de variáveis booleanas (`numvariaveis`) e pelo número total de cláusulas lógicas (`numclausulas`).
+
+2. **Cláusulas Proposicionais (CNF):**
+   Linhas que definem a lógica booleana do problema. Cada linha representa uma cláusula composta por literais e finalizada pelo dígito `0`.
+
+3. **Mapeamento da Teoria:**
+   Linhas iniciadas com o identificador `t` que associam uma variável booleana a uma inequação linear da teoria aritmética:
+   `t idliteral coeficientes operador constante`
+
+##### Exemplo de Entrada
+
+```text
+p smt 2 2
+1 0
+2 0
+t 1 2 1 <= 9
+t 2 1 -2 >= 1
 
 ## Tecnologias Utilizadas
 
