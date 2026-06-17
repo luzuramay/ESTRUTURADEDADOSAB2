@@ -21,6 +21,7 @@ Os projetos contemplam diferentes aplicações de estruturas de dados, algoritmo
 ### 1. Índices em Bancos de Dados com Árvore B+
 
 Seminário dedicado ao estudo das Árvores B+, uma das principais estruturas utilizadas na implementação de índices em sistemas de gerenciamento de bancos de dados. O trabalho aborda suas propriedades, funcionamento e aplicações em operações de busca, inserção e remoção de registros.
+As imagens das árvores no slide são meramente ilustrativas, visando exemplificar a estrutura teórica. Portanto, não representam implementações reais dos códigos apresentados.
 
 ### 2. Comparação de Desempenho entre Lista Encadeada e Árvore Binária de Busca
 
